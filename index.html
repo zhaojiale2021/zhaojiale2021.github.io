@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>赵家乐 · Alan Zhao</title>
+  <title>赵家乐 · Alan Zhao · 嵌入式 / 汽车电子工程师</title>
   <style>
     :root {
       --bg: #f4f6fb;
@@ -13,6 +13,8 @@
       --accent: #2f6fed;
       --accent-soft: #e6efff;
       --border: #e3e8f0;
+      --priv: #7c3aed;
+      --priv-soft: #f3e8ff;
       --shadow: 0 8px 30px rgba(23, 32, 51, .06);
     }
     * { box-sizing: border-box; }
@@ -31,9 +33,9 @@
     .hero {
       position: relative;
       overflow: hidden;
-      padding: 68px 24px 56px;
+      padding: 72px 24px 60px;
       text-align: center;
-      background: linear-gradient(135deg, #1e2a45 0%, #24406f 50%, #2f6fed 100%);
+      background: linear-gradient(135deg, #101c38 0%, #1e3a6e 48%, #2f6fed 100%);
       color: #fff;
     }
     .hero::after {
@@ -41,34 +43,35 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(circle at 80% 20%, rgba(255,255,255,.10), transparent 28%),
-        radial-gradient(circle at 10% 80%, rgba(255,255,255,.08), transparent 30%);
+        radial-gradient(circle at 78% 16%, rgba(255,255,255,.12), transparent 28%),
+        radial-gradient(circle at 14% 82%, rgba(255,255,255,.08), transparent 30%);
       pointer-events: none;
     }
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 760px;
-      margin: 0 auto;
-    }
+    .hero-content { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
     .avatar {
-      width: 118px;
-      height: 118px;
+      width: 124px;
+      height: 124px;
       border-radius: 50%;
       object-fit: cover;
-      border: 5px solid rgba(255,255,255,.85);
-      box-shadow: 0 10px 35px rgba(0,0,0,.25);
+      border: 5px solid rgba(255,255,255,.88);
+      box-shadow: 0 12px 36px rgba(0,0,0,.28);
       background: #fff;
     }
     .hero h1 {
-      font-size: 34px;
-      margin: 16px 0 6px;
-      letter-spacing: .5px;
+      font-size: 36px;
+      margin: 18px 0 6px;
+      letter-spacing: .6px;
     }
-    .hero p {
-      margin: 4px 0 18px;
-      opacity: .88;
+    .hero .subtitle {
+      margin: 4px 0 8px;
+      opacity: .9;
       font-size: 15px;
+    }
+    .hero .desc {
+      max-width: 620px;
+      margin: 0 auto 20px;
+      opacity: .78;
+      font-size: 14px;
     }
     .hero-btn {
       display: inline-block;
@@ -81,22 +84,19 @@
       backdrop-filter: blur(6px);
       transition: background .15s ease;
     }
-    .hero-btn:hover {
-      background: rgba(255,255,255,.24);
-      text-decoration: none;
-    }
+    .hero-btn:hover { background: rgba(255,255,255,.24); text-decoration: none; }
 
     .container {
-      max-width: 920px;
+      max-width: 960px;
       margin: 0 auto;
-      padding: 0 18px 56px;
+      padding: 0 18px 60px;
     }
     .card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 18px;
-      padding: 28px;
-      margin-top: 26px;
+      padding: 30px;
+      margin-top: 28px;
       box-shadow: var(--shadow);
     }
     .section-title {
@@ -105,7 +105,7 @@
       gap: 10px;
       font-size: 21px;
       font-weight: 700;
-      margin: 0 0 14px;
+      margin: 0 0 16px;
     }
     .section-title::before {
       content: "";
@@ -114,28 +114,21 @@
       border-radius: 999px;
       background: linear-gradient(180deg, #2f6fed, #6ea8ff);
     }
+    .section-title .hint {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
     .about-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 22px;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 26px;
+    }
+    @media (max-width: 720px) {
+      .about-grid { grid-template-columns: 1fr; }
     }
     .about-grid p { margin: 0 0 10px; color: #2c3a52; }
-    .skills {
-      list-style: none;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 14px 0 0;
-      padding: 0;
-    }
-    .skills li {
-      padding: 5px 13px;
-      border-radius: 999px;
-      font-size: 13px;
-      background: var(--accent-soft);
-      color: #1d4fc4;
-      border: 1px solid #cbdcff;
-    }
     .timeline {
       list-style: none;
       margin: 0;
@@ -159,22 +152,30 @@
       border: 2px solid #fff;
       box-shadow: 0 0 0 2px #dfe7f2;
     }
-    .timeline .when {
-      color: var(--accent);
+    .timeline .when { color: var(--accent); font-size: 13px; font-weight: 600; }
+    .timeline .what { font-weight: 600; }
+    .timeline .detail { color: var(--muted); font-size: 14px; }
+
+    .skills {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 16px 0 0;
+      padding: 0;
+    }
+    .skills li {
+      padding: 5px 13px;
+      border-radius: 999px;
       font-size: 13px;
-      font-weight: 600;
-    }
-    .timeline .what {
-      font-weight: 600;
-    }
-    .timeline .detail {
-      color: var(--muted);
-      font-size: 14px;
+      background: var(--accent-soft);
+      color: #1d4fc4;
+      border: 1px solid #cbdcff;
     }
 
     .repo-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
       gap: 16px;
       margin-top: 16px;
     }
@@ -192,6 +193,11 @@
       transform: translateY(-3px);
       box-shadow: 0 12px 28px rgba(23,32,51,.10);
     }
+    .repo-card.private {
+      border-color: #e8d9ff;
+      background: linear-gradient(180deg, #ffffff, #fbfaff);
+    }
+    .repo-card.private:hover { box-shadow: 0 12px 28px rgba(124,58,237,.10); }
     .repo-head {
       display: flex;
       align-items: center;
@@ -203,13 +209,18 @@
       font-weight: 700;
       color: var(--text);
     }
-    .repo-head a.repo-name:hover { color: var(--accent); text-decoration: none; }
+    a.repo-name:hover { color: var(--accent); text-decoration: none; }
     .badge {
       font-size: 12px;
       padding: 2px 10px;
       border-radius: 999px;
       background: #eef2ff;
       color: #3730a3;
+    }
+    .badge.private {
+      background: var(--priv-soft);
+      color: var(--priv);
+      border: 1px solid #e7d4ff;
     }
     .repo-desc {
       margin: 0;
@@ -253,10 +264,23 @@
       color: #fff;
     }
     .btn.primary:hover { background: #245ac7; }
-    .empty {
+    .btn.disabled {
       color: var(--muted);
+      border-color: #e3e8f0;
+      background: #f8fafc;
+      cursor: default;
+      pointer-events: none;
+    }
+    .empty { color: var(--muted); text-align: center; padding: 22px 0; }
+    .note {
+      margin-top: 14px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: #fff7e6;
+      border: 1px solid #ffe4b3;
+      color: #8a6116;
+      font-size: 13px;
       text-align: center;
-      padding: 22px 0;
     }
     .work-item {
       display: flex;
@@ -282,16 +306,6 @@
       color: var(--muted);
       font-size: 13px;
     }
-    .note {
-      margin-top: 14px;
-      padding: 12px 16px;
-      border-radius: 12px;
-      background: #fff7e6;
-      border: 1px solid #ffe4b3;
-      color: #8a6116;
-      font-size: 13px;
-      text-align: center;
-    }
   </style>
 </head>
 <body>
@@ -299,31 +313,37 @@
     <div class="hero-content">
       <img class="avatar" src="https://avatars.githubusercontent.com/u/86412178?v=4" alt="赵家乐 GitHub 头像">
       <h1>赵家乐</h1>
-      <p>Alan Zhao · 嵌入式软件工程师 · 江苏苏州</p>
+      <p class="subtitle">Alan Zhao · 嵌入式 / 汽车电子工程师 · 苏州</p>
+      <p class="desc">专注车载 AUTOSAR、通信协议栈、域控制器底层开发，擅长用 AI 工具提升嵌入式开发效率。</p>
       <a class="hero-btn" href="https://github.com/zhaojiale2021" target="_blank" rel="noopener noreferrer">GitHub @zhaojiale2021</a>
     </div>
   </header>
 
   <main class="container">
     <section class="card">
-      <h2 class="section-title">个人画像</h2>
+      <h2 class="section-title">个人画像 <span class="hint">基于最新简历与开源/私有仓库整理</span></h2>
       <div class="about-grid">
         <div>
-          <p>我是赵家乐（Alan），一名专注于车载软件与嵌入式开发的工程师，现居江苏苏州。</p>
-          <p>本科毕业于大连东软信息学院电子信息工程专业。目前从事 AUTOSAR / BSW 方向的开发工作，熟悉 CAN、LIN、Ethernet、SOME/IP、BusMirror 等车载通信链路，习惯用 CANoe、Wireshark、劳德巴赫等工具做协议分析、仿真和问题定位。</p>
-          <p>工作中注重需求落地与异常场景自验证，也喜欢把日常积累沉淀成开源工具，比如 Rust 全景视频播放器、AUTOSAR 协议解析插件等。</p>
+          <p>我是赵家乐（Alan），4 年汽车电子 / 嵌入式软件开发经验，现居苏州。目前负责自动驾驶域控制器的通信协议栈开发与维护，保障车内及跨域通信的稳定性与实时性。</p>
+          <p>深度参与过奇瑞、赛力斯问界 M9、岚图追光、北汽、江淮等量产项目，熟悉 CAN/CANFD、部分 Ethernet、DoIP/DoCAN 诊断路由、SOME/IP、Bus Mirror、E2E 校验、网络管理等车载通信链路。</p>
+          <p>技术栈覆盖瑞萨 RH850 U2A8、地平线征程 6（J6B/J6M）、TI TDA4 等芯片平台；熟悉 AUTOSAR CP、链接脚本深度定制、Greenhills/GCC/Clang 工具链适配。近年也持续将 AI 工具引入嵌入式研发，比如用 Python + 模板自动生成通信协议栈配置，把 DBC 到 ARXML 的配置周期从 1 周以上缩短到 1-2 小时。</p>
         </div>
         <div>
           <ul class="timeline">
             <li>
-              <div class="when">2022.07 — 至今</div>
-              <div class="what">嵌入式软件开发工程师</div>
-              <div class="detail">江苏润和软件 · 车载软件 / AUTOSAR / SOME/IP / BusMirror</div>
+              <div class="when">2023.07 — 至今</div>
+              <div class="what">嵌入式软件工程师</div>
+              <div class="detail">知行汽车科技（苏州）· 域控制器通信协议栈 / AUTOSAR / 诊断路由</div>
+            </li>
+            <li>
+              <div class="when">2022.07 — 2023.07</div>
+              <div class="what">嵌入式软件工程师</div>
+              <div class="detail">江苏润和软件 · 车载网络域控制器与 MCU 底软通信开发</div>
             </li>
             <li>
               <div class="when">2021.07 — 2022.04</div>
               <div class="what">软件测试工程师</div>
-              <div class="detail">长春径点科技 · 测试用例、集成测试、接口测试</div>
+              <div class="detail">长春径点科技 · 测试用例 / 集成测试 / 自动化测试</div>
             </li>
             <li>
               <div class="when">2018.09 — 2022.06</div>
@@ -334,41 +354,67 @@
         </div>
       </div>
       <ul class="skills">
-        <li>AUTOSAR / BSW</li>
+        <li>AUTOSAR CP</li>
+        <li>CAN / CANFD / Ethernet</li>
         <li>SOME/IP</li>
-        <li>CAN / LIN / Ethernet</li>
+        <li>DoIP / DoCAN / UDS</li>
+        <li>DCM / Nm / PduR</li>
+        <li>RH850 U2A8</li>
+        <li>地平线 J6B / J6M</li>
+        <li>TI TDA4</li>
         <li>C / C++</li>
         <li>Python</li>
-        <li>Lua</li>
         <li>Rust</li>
-        <li>STM32</li>
-        <li>Linux</li>
-        <li>QT</li>
-        <li>Wireshark</li>
-        <li>CANoe</li>
+        <li>Lua</li>
+        <li>Linker Script</li>
+        <li>CMake</li>
+        <li>Greenhills / GCC / Clang</li>
         <li>Lauterbach</li>
-        <li>Git / GitHub</li>
+        <li>CANoe / Wireshark</li>
+        <li>AI 辅助开发</li>
       </ul>
     </section>
 
     <section class="card">
-      <h2 class="section-title">工作与未公开项目</h2>
-      <div class="work-item">
-        <span class="work-dot"></span>
-        <div><b>奇瑞 E0X · SOME/IP 需求开发</b><br><span>使用 VOS 工具配置 SoAd、TcpIp、PduR、SD 等模块，负责 VDC / VIU 的 Server / Client Services 开发与验证。</span></div>
-      </div>
-      <div class="work-item">
-        <span class="work-dot"></span>
-        <div><b>岚图 H53 · 总线镜像与报文过滤</b><br><span>配置 SoAd、TcpIp、PduR、Mirror、CanIf 等模块，实现 CAN/LIN 到 Ethernet 的报文镜像与过滤，并优化发包性能。</span></div>
-      </div>
-      <div class="work-item">
-        <span class="work-dot"></span>
-        <div><b>协议与调试工具链</b><br><span>围绕 AUTOSAR 通信协议开发 Wireshark dissector、测试报文生成器、MCU 多协议转换工具等。</span></div>
+      <h2 class="section-title">私有仓库 <span class="hint">个人工具链 / AI 效率工程</span></h2>
+      <div class="repo-grid">
+        <article class="repo-card private">
+          <div class="repo-head">
+            <span class="repo-name">CAN_CRC_Checker</span>
+            <span class="badge private">私有</span>
+            <span class="badge">Python</span>
+          </div>
+          <p class="repo-desc">DBC 感知的 CAN 总线 CRC / Rolling Counter 校验工具，支持 E2E Profile 5 与 Profile 1/1A，服务 GAC、GWM、Chery 等客户项目。</p>
+          <div class="repo-topics"><span class="topic">CAN</span><span class="topic">CRC</span><span class="topic">E2E</span><span class="topic">DBC</span><span class="topic">BLF/ASC/MF4</span></div>
+          <div class="repo-actions"><span class="btn disabled">私有 · 仅本人可访问</span></div>
+        </article>
+
+        <article class="repo-card private">
+          <div class="repo-head">
+            <span class="repo-name">etasarxmlgenerator</span>
+            <span class="badge private">私有</span>
+            <span class="badge">Python</span>
+          </div>
+          <p class="repo-desc">DBC → 中间 CSV → ETAS ARXML 的自动化生成工具，基于 Jinja2 模板批量生成 CAN、CanIf、CanNm、Com、PduR、CanTp 等模块配置。</p>
+          <div class="repo-topics"><span class="topic">DBC</span><span class="topic">ARXML</span><span class="topic">AUTOSAR</span><span class="topic">Jinja2</span><span class="topic">CLI</span></div>
+          <div class="repo-actions"><span class="btn disabled">私有 · 仅本人可访问</span></div>
+        </article>
+
+        <article class="repo-card private">
+          <div class="repo-head">
+            <span class="repo-name">agent-memory</span>
+            <span class="badge private">私有</span>
+            <span class="badge">Python / Shell</span>
+          </div>
+          <p class="repo-desc">Claude Code 各工作区的 agent 记忆统一同步仓库，含 memory、个人 skills、hooks、周报系统，跨机器自动 pull/push。</p>
+          <div class="repo-topics"><span class="topic">AI Agent</span><span class="topic">Memory</span><span class="topic">Sync</span><span class="topic">Hooks</span><span class="topic">Weekly Report</span></div>
+          <div class="repo-actions"><span class="btn disabled">私有 · 仅本人可访问</span></div>
+        </article>
       </div>
     </section>
 
     <section class="card">
-      <h2 class="section-title">公开项目</h2>
+      <h2 class="section-title">公开项目 <span class="hint">源码 / README 可直接查看</span></h2>
       <div id="repo-list">
         <p class="empty">正在加载 GitHub 仓库…</p>
       </div>
@@ -464,12 +510,6 @@
       }
     }
 
-    function esc(s) {
-      return String(s).replace(/[&<>"']/g, c => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-      })[c]);
-    }
-
     function renderRepos(repos) {
       const list = document.getElementById('repo-list');
       const projects = (Array.isArray(repos) ? repos : [])
@@ -491,7 +531,6 @@
 
         const head = document.createElement('div');
         head.className = 'repo-head';
-
         const nameLink = document.createElement('a');
         nameLink.className = 'repo-name';
         nameLink.href = repo.html_url;
@@ -499,7 +538,6 @@
         nameLink.rel = 'noopener noreferrer';
         nameLink.textContent = NAME_MAP[repo.name] || repo.name;
         head.appendChild(nameLink);
-
         if (repo.language) {
           const lang = document.createElement('span');
           lang.className = 'badge';
@@ -529,7 +567,6 @@
 
         const actions = document.createElement('div');
         actions.className = 'repo-actions';
-
         const source = document.createElement('a');
         source.className = 'btn primary';
         source.href = repo.html_url;
@@ -567,10 +604,8 @@
         meta.style.color = 'var(--muted)';
         meta.textContent = '更新于 ' + formatDate(repo.pushed_at || repo.updated_at);
         card.appendChild(meta);
-
         grid.appendChild(card);
       });
-
       list.appendChild(grid);
     }
 
@@ -590,7 +625,6 @@
         const repos = await response.json();
         if (!Array.isArray(repos)) throw new Error('Unexpected response');
 
-        // Try to enrich readme availability from the public API.
         const projects = repos.filter(r => !r.fork && r.name !== SITE_REPO);
         await Promise.all(projects.map(async repo => {
           try {
@@ -603,7 +637,6 @@
             repo.has_readme = repo.default_branch !== undefined;
           }
         }));
-
         renderRepos(repos);
       } catch (err) {
         renderRepos(readFallback());
