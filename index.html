@@ -3,129 +3,208 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>赵家乐的个人网站</title>
+  <title>赵家乐 · Alan Zhao</title>
   <style>
     :root {
-      --bg: #f5f7fa;
+      --bg: #f4f6fb;
       --card: #ffffff;
-      --text: #1f2933;
-      --muted: #52606d;
-      --accent: #2563eb;
-      --border: #e4e7eb;
+      --text: #172033;
+      --muted: #5b6478;
+      --accent: #2f6fed;
+      --accent-soft: #e6efff;
+      --border: #e3e8f0;
+      --shadow: 0 8px 30px rgba(23, 32, 51, .06);
     }
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       background: var(--bg);
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
                    "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-      line-height: 1.7;
+      line-height: 1.75;
     }
-    .header {
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 68px 24px 56px;
       text-align: center;
-      padding: 48px 20px 20px;
+      background: linear-gradient(135deg, #1e2a45 0%, #24406f 50%, #2f6fed 100%);
+      color: #fff;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,.10), transparent 28%),
+        radial-gradient(circle at 10% 80%, rgba(255,255,255,.08), transparent 30%);
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
     }
     .avatar {
-      width: 96px;
-      height: 96px;
+      width: 118px;
+      height: 118px;
       border-radius: 50%;
       object-fit: cover;
-      border: 4px solid #fff;
-      box-shadow: 0 4px 16px rgba(0,0,0,.12);
+      border: 5px solid rgba(255,255,255,.85);
+      box-shadow: 0 10px 35px rgba(0,0,0,.25);
+      background: #fff;
     }
-    .name {
-      font-size: 28px;
-      font-weight: 700;
-      margin: 14px 0 2px;
+    .hero h1 {
+      font-size: 34px;
+      margin: 16px 0 6px;
+      letter-spacing: .5px;
     }
-    .subtitle {
-      color: var(--muted);
-      margin-bottom: 14px;
+    .hero p {
+      margin: 4px 0 18px;
+      opacity: .88;
+      font-size: 15px;
     }
+    .hero-btn {
+      display: inline-block;
+      padding: 10px 22px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.28);
+      color: #fff;
+      font-size: 14px;
+      backdrop-filter: blur(6px);
+      transition: background .15s ease;
+    }
+    .hero-btn:hover {
+      background: rgba(255,255,255,.24);
+      text-decoration: none;
+    }
+
     .container {
-      max-width: 880px;
-      margin: 0 auto 40px;
-      padding: 0 16px;
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 0 18px 56px;
     }
     .card {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 24px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.04);
+      border-radius: 18px;
+      padding: 28px;
+      margin-top: 26px;
+      box-shadow: var(--shadow);
     }
     .section-title {
-      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 21px;
       font-weight: 700;
-      margin: 32px 0 16px;
-      border-left: 4px solid var(--accent);
-      padding-left: 12px;
+      margin: 0 0 14px;
     }
-    .intro {
-      text-align: center;
-      font-size: 16px;
+    .section-title::before {
+      content: "";
+      width: 6px;
+      height: 22px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #2f6fed, #6ea8ff);
     }
-    .qrcode {
-      display: block;
-      margin: 18px auto 8px;
-      width: 240px;
-      height: 240px;
-      max-width: 80%;
-      border-radius: 10px;
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
     }
-    .links {
+    .about-grid p { margin: 0 0 10px; color: #2c3a52; }
+    .skills {
+      list-style: none;
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-      margin-top: 14px;
+      gap: 8px;
+      margin: 14px 0 0;
+      padding: 0;
     }
-    .link-btn {
-      display: inline-block;
-      padding: 8px 16px;
+    .skills li {
+      padding: 5px 13px;
       border-radius: 999px;
-      background: #eef2ff;
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 14px;
-      border: 1px solid #dbeafe;
-      transition: background .15s ease;
+      font-size: 13px;
+      background: var(--accent-soft);
+      color: #1d4fc4;
+      border: 1px solid #cbdcff;
     }
-    .link-btn:hover {
-      background: #dbeafe;
+    .timeline {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .timeline li {
+      position: relative;
+      padding: 0 0 18px 24px;
+      border-left: 2px solid #dfe7f2;
+    }
+    .timeline li:last-child { padding-bottom: 0; border-left-color: transparent; }
+    .timeline li::before {
+      content: "";
+      position: absolute;
+      left: -7px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 2px #dfe7f2;
+    }
+    .timeline .when {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .timeline .what {
+      font-weight: 600;
+    }
+    .timeline .detail {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .repo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
     }
     .repo-card {
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      margin-bottom: 14px;
-      padding: 18px;
-      background: var(--card);
+      gap: 10px;
       border: 1px solid var(--border);
-      border-radius: 12px;
-      transition: transform .12s ease, box-shadow .12s ease;
+      border-radius: 16px;
+      padding: 20px;
+      background: #fff;
+      transition: transform .15s ease, box-shadow .15s ease;
     }
     .repo-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(0,0,0,.08);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(23,32,51,.10);
     }
     .repo-head {
       display: flex;
       align-items: center;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
     }
     .repo-name {
-      font-size: 17px;
-      font-weight: 600;
-      color: var(--accent);
-      text-decoration: none;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
     }
-    .repo-name:hover { text-decoration: underline; }
+    .repo-head a.repo-name:hover { color: var(--accent); text-decoration: none; }
     .badge {
-      display: inline-block;
       font-size: 12px;
       padding: 2px 10px;
       border-radius: 999px;
@@ -136,6 +215,7 @@
       margin: 0;
       color: var(--muted);
       font-size: 14px;
+      flex: 1;
     }
     .repo-topics {
       display: flex;
@@ -149,81 +229,159 @@
       border-radius: 6px;
       padding: 2px 8px;
     }
-    .repo-meta {
+    .repo-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 8px;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 7px 14px;
+      border-radius: 10px;
       font-size: 13px;
+      border: 1px solid #c9d8f5;
+      background: #f4f8ff;
+      color: #1d4fc4;
+      transition: background .15s ease;
+    }
+    .btn:hover { background: #e0ecff; text-decoration: none; }
+    .btn.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .btn.primary:hover { background: #245ac7; }
+    .empty {
       color: var(--muted);
+      text-align: center;
+      padding: 22px 0;
     }
-    .repo-meta a {
-      color: var(--accent);
-      text-decoration: none;
+    .work-item {
+      display: flex;
+      gap: 12px;
+      align-items: baseline;
+      padding: 12px 0;
+      border-bottom: 1px dashed #e7ecf5;
     }
+    .work-item:last-child { border-bottom: none; }
+    .work-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2f6fed, #78b7ff);
+      flex: none;
+    }
+    .work-item b { font-weight: 600; }
+    .work-item span { color: var(--muted); font-size: 14px; }
+
     .footer {
       text-align: center;
-      padding: 28px 16px 40px;
+      padding: 30px 16px 48px;
       color: var(--muted);
       font-size: 13px;
     }
-    .footer a { color: var(--accent); text-decoration: none; }
-    .error { color: #b91c1c; font-size: 13px; }
+    .note {
+      margin-top: 14px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: #fff7e6;
+      border: 1px solid #ffe4b3;
+      color: #8a6116;
+      font-size: 13px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
-  <div class="header">
-    <img class="avatar" src="OIP.jpg" alt="赵家乐">
-    <div class="name">赵家乐</div>
-    <div class="subtitle">Alan Zhao · 江苏苏州</div>
-  </div>
+  <header class="hero">
+    <div class="hero-content">
+      <img class="avatar" src="https://avatars.githubusercontent.com/u/86412178?v=4" alt="赵家乐 GitHub 头像">
+      <h1>赵家乐</h1>
+      <p>Alan Zhao · 嵌入式软件工程师 · 江苏苏州</p>
+      <a class="hero-btn" href="https://github.com/zhaojiale2021" target="_blank" rel="noopener noreferrer">GitHub @zhaojiale2021</a>
+    </div>
+  </header>
 
-  <div class="container">
-    <div class="card intro">
-      <p>欢迎加入 225 组，坐标江苏苏州。</p>
-      <img class="qrcode" src="QRCODE.png" alt="225组二维码">
-      <div class="links">
-        <a class="link-btn" href="https://github.com/zhaojiale2021">GitHub</a>
-        <a class="link-btn" href="https://space.bilibili.com/50534375">我的B站</a>
-        <a class="link-btn" href="https://space.bilibili.com/34786453">康老师的B站</a>
-        <a class="link-btn" href="https://www.midorg.com/">元岛首页</a>
+  <main class="container">
+    <section class="card">
+      <h2 class="section-title">个人画像</h2>
+      <div class="about-grid">
+        <div>
+          <p>我是赵家乐（Alan），一名专注于车载软件与嵌入式开发的工程师，现居江苏苏州。</p>
+          <p>本科毕业于大连东软信息学院电子信息工程专业。目前从事 AUTOSAR / BSW 方向的开发工作，熟悉 CAN、LIN、Ethernet、SOME/IP、BusMirror 等车载通信链路，习惯用 CANoe、Wireshark、劳德巴赫等工具做协议分析、仿真和问题定位。</p>
+          <p>工作中注重需求落地与异常场景自验证，也喜欢把日常积累沉淀成开源工具，比如 Rust 全景视频播放器、AUTOSAR 协议解析插件等。</p>
+        </div>
+        <div>
+          <ul class="timeline">
+            <li>
+              <div class="when">2022.07 — 至今</div>
+              <div class="what">嵌入式软件开发工程师</div>
+              <div class="detail">江苏润和软件 · 车载软件 / AUTOSAR / SOME/IP / BusMirror</div>
+            </li>
+            <li>
+              <div class="when">2021.07 — 2022.04</div>
+              <div class="what">软件测试工程师</div>
+              <div class="detail">长春径点科技 · 测试用例、集成测试、接口测试</div>
+            </li>
+            <li>
+              <div class="when">2018.09 — 2022.06</div>
+              <div class="what">电子信息工程 · 本科</div>
+              <div class="detail">大连东软信息学院</div>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
+      <ul class="skills">
+        <li>AUTOSAR / BSW</li>
+        <li>SOME/IP</li>
+        <li>CAN / LIN / Ethernet</li>
+        <li>C / C++</li>
+        <li>Python</li>
+        <li>Lua</li>
+        <li>Rust</li>
+        <li>STM32</li>
+        <li>Linux</li>
+        <li>QT</li>
+        <li>Wireshark</li>
+        <li>CANoe</li>
+        <li>Lauterbach</li>
+        <li>Git / GitHub</li>
+      </ul>
+    </section>
 
-    <h2 class="section-title">GitHub 仓库</h2>
-    <div id="repo-list">
-      <p>正在加载 GitHub 仓库…</p>
-    </div>
-    <p class="error" id="repo-error" hidden></p>
+    <section class="card">
+      <h2 class="section-title">工作与未公开项目</h2>
+      <div class="work-item">
+        <span class="work-dot"></span>
+        <div><b>奇瑞 E0X · SOME/IP 需求开发</b><br><span>使用 VOS 工具配置 SoAd、TcpIp、PduR、SD 等模块，负责 VDC / VIU 的 Server / Client Services 开发与验证。</span></div>
+      </div>
+      <div class="work-item">
+        <span class="work-dot"></span>
+        <div><b>岚图 H53 · 总线镜像与报文过滤</b><br><span>配置 SoAd、TcpIp、PduR、Mirror、CanIf 等模块，实现 CAN/LIN 到 Ethernet 的报文镜像与过滤，并优化发包性能。</span></div>
+      </div>
+      <div class="work-item">
+        <span class="work-dot"></span>
+        <div><b>协议与调试工具链</b><br><span>围绕 AUTOSAR 通信协议开发 Wireshark dissector、测试报文生成器、MCU 多协议转换工具等。</span></div>
+      </div>
+    </section>
 
-    <h2 class="section-title">网页仓库</h2>
-    <div class="card">
-      <p style="margin:0">
-        本站源码：
-        <a href="https://github.com/zhaojiale2021/zhaojiale2021.github.io">zhaojiale2021/zhaojiale2021.github.io</a>
-      </p>
-    </div>
-  </div>
+    <section class="card">
+      <h2 class="section-title">公开项目</h2>
+      <div id="repo-list">
+        <p class="empty">正在加载 GitHub 仓库…</p>
+      </div>
+      <p class="note" id="repo-note" hidden>当前展示内置缓存；实时 GitHub 数据加载失败。</p>
+    </section>
+  </main>
 
-  <div class="footer">
-    <p>© <span id="year"></span> zhaojiale2021.github.io</p>
-    <a href="https://github.com/zhaojiale2021/zhaojiale2021.github.io">查看本站仓库</a>
-  </div>
+  <footer class="footer">
+    <p>© <span id="year"></span> zhaojiale2021.github.io · Powered by GitHub Pages</p>
+  </footer>
 
   <script id="repo-fallback" type="application/json">
   [
-    {
-      "name": "daily_stock_analysis",
-      "full_name": "zhaojiale2021/daily_stock_analysis",
-      "html_url": "https://github.com/zhaojiale2021/daily_stock_analysis",
-      "description": "LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。  LLM-powered multi-market stock analysis system with multi-source market data, real-time news, decision dashboard, automated notifications, and cost-free scheduled runs.",
-      "language": "Python",
-      "topics": [],
-      "fork": true,
-      "homepage": "https://dsa.zhulinsen.tech",
-      "license": "MIT",
-      "updated_at": "2026-08-18T08:00:42Z",
-      "pushed_at": "2026-08-18T07:55:21Z"
-    },
     {
       "name": "omniview",
       "full_name": "zhaojiale2021/omniview",
@@ -234,6 +392,8 @@
       "fork": false,
       "homepage": null,
       "license": "MIT",
+      "default_branch": "main",
+      "has_readme": true,
       "updated_at": "2026-08-16T08:09:22Z",
       "pushed_at": "2026-08-16T08:28:31Z"
     },
@@ -247,6 +407,8 @@
       "fork": false,
       "homepage": null,
       "license": "MIT",
+      "default_branch": "main",
+      "has_readme": true,
       "updated_at": "2026-05-30T06:05:52Z",
       "pushed_at": "2026-05-30T06:05:48Z"
     },
@@ -260,6 +422,8 @@
       "fork": false,
       "homepage": null,
       "license": "MIT",
+      "default_branch": "main",
+      "has_readme": false,
       "updated_at": "2026-05-19T18:54:17Z",
       "pushed_at": "2026-05-19T18:54:09Z"
     }
@@ -267,13 +431,17 @@
   </script>
 
   <script>
-    const owner = 'zhaojiale2021';
+    const OWNER = 'zhaojiale2021';
     const SITE_REPO = 'zhaojiale2021.github.io';
     const NAME_MAP = {
-      'daily_stock_analysis': '股票智能分析系统',
-      'omniview': 'Omniview · 360° 全景视频播放器',
-      'autosar-busmirror-dissector': 'AUTOSAR BusMirror Dissector',
-      'USB2X': 'USB2X · 多协议转换'
+      'omniview': 'Omniview',
+      'autosar-busmirror-dissector': 'Autosar BusMirror Dissector',
+      'USB2X': 'USB2X'
+    };
+    const DESC_MAP = {
+      'omniview': '基于 Rust（ffmpeg-next + wgpu + egui）的 360° 全景视频播放器，支持普通视频/全景视频、多音轨、字幕、播放列表等。',
+      'autosar-busmirror-dissector': 'AUTOSAR BusMirror 协议的 Wireshark Lua dissector，附带测试报文生成器，支持 CAN / LIN / FlexRay / Ethernet 样例。',
+      'USB2X': '使用 STM32 等 MCU 实现 USB 转任意通信协议的固件 / 工具项目。'
     };
 
     function languageColor(name) {
@@ -291,22 +459,12 @@
       if (!value) return '';
       try {
         return new Date(value).toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' });
-      } catch (e) {
+      } catch (_) {
         return value;
       }
     }
 
-    function translateDescription(repo) {
-      const zh = {
-        'daily_stock_analysis': 'LLM 驱动的多市场股票智能分析系统：多源行情、实时新闻、决策看板与自动推送，支持零成本定时运行。',
-        'omniview': '基于 Rust（ffmpeg-next + wgpu + egui）的 360° 全景视频播放器，支持普通视频/全景视频、多音轨、字幕、播放列表等。',
-        'autosar-busmirror-dissector': 'AUTOSAR BusMirror 协议的 Wireshark Lua dissector 与测试报文生成器。',
-        'USB2X': '使用 STM32 等 MCU 实现 USB 转任意通信协议的固件 / 工具。'
-      };
-      return zh[repo.name] || repo.description || '暂无项目描述';
-    }
-
-    function escapeHtml(s) {
+    function esc(s) {
       return String(s).replace(/[&<>"']/g, c => ({
         '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
       })[c]);
@@ -314,47 +472,47 @@
 
     function renderRepos(repos) {
       const list = document.getElementById('repo-list');
-      const projects = repos
-        .filter(repo => repo.name !== SITE_REPO)
+      const projects = (Array.isArray(repos) ? repos : [])
+        .filter(repo => !repo.fork && repo.name !== SITE_REPO)
         .sort((a, b) => new Date(b.pushed_at || b.updated_at || 0) - new Date(a.pushed_at || a.updated_at || 0));
       list.innerHTML = '';
-      if (projects.length === 0) {
-        list.innerHTML = '<p>暂无公开仓库。</p>';
+
+      if (!projects.length) {
+        list.innerHTML = '<p class="empty">暂无公开项目。</p>';
         return;
       }
+
+      const grid = document.createElement('div');
+      grid.className = 'repo-grid';
+
       projects.forEach(repo => {
-        const card = document.createElement('div');
+        const card = document.createElement('article');
         card.className = 'repo-card';
 
         const head = document.createElement('div');
         head.className = 'repo-head';
-        const repoName = document.createElement('a');
-        repoName.className = 'repo-name';
-        repoName.href = repo.html_url;
-        repoName.target = '_blank';
-        repoName.rel = 'noopener noreferrer';
-        repoName.textContent = NAME_MAP[repo.name] || repo.name;
-        head.appendChild(repoName);
 
-        if (repo.fork) {
-          const forkBadge = document.createElement('span');
-          forkBadge.className = 'badge';
-          forkBadge.textContent = 'Fork';
-          head.appendChild(forkBadge);
-        }
+        const nameLink = document.createElement('a');
+        nameLink.className = 'repo-name';
+        nameLink.href = repo.html_url;
+        nameLink.target = '_blank';
+        nameLink.rel = 'noopener noreferrer';
+        nameLink.textContent = NAME_MAP[repo.name] || repo.name;
+        head.appendChild(nameLink);
+
         if (repo.language) {
-          const langBadge = document.createElement('span');
-          langBadge.className = 'badge';
-          langBadge.textContent = repo.language;
-          langBadge.style.background = languageColor(repo.language) + '22';
-          langBadge.style.color = languageColor(repo.language);
-          head.appendChild(langBadge);
+          const lang = document.createElement('span');
+          lang.className = 'badge';
+          lang.textContent = repo.language;
+          lang.style.background = languageColor(repo.language) + '22';
+          lang.style.color = languageColor(repo.language);
+          head.appendChild(lang);
         }
         card.appendChild(head);
 
         const desc = document.createElement('p');
         desc.className = 'repo-desc';
-        desc.textContent = translateDescription(repo);
+        desc.textContent = DESC_MAP[repo.name] || repo.description || '暂无项目描述';
         card.appendChild(desc);
 
         if (repo.topics && repo.topics.length) {
@@ -369,45 +527,88 @@
           card.appendChild(topics);
         }
 
-        const meta = document.createElement('div');
-        meta.className = 'repo-meta';
-        const pushed = document.createElement('span');
-        pushed.textContent = '更新于 ' + formatDate(repo.pushed_at || repo.updated_at);
-        meta.appendChild(pushed);
-        const link = document.createElement('a');
-        link.href = repo.html_url;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-        link.textContent = 'GitHub ↗';
-        meta.appendChild(link);
+        const actions = document.createElement('div');
+        actions.className = 'repo-actions';
+
+        const source = document.createElement('a');
+        source.className = 'btn primary';
+        source.href = repo.html_url;
+        source.target = '_blank';
+        source.rel = 'noopener noreferrer';
+        source.textContent = '源码';
+        actions.appendChild(source);
+
         if (repo.homepage) {
           const home = document.createElement('a');
+          home.className = 'btn';
           home.href = repo.homepage;
           home.target = '_blank';
           home.rel = 'noopener noreferrer';
-          home.textContent = '在线预览 ↗';
-          meta.appendChild(home);
+          home.textContent = '在线预览';
+          actions.appendChild(home);
         }
+
+        const readmeAvailable = repo.has_readme !== undefined ? repo.has_readme : true;
+        if (readmeAvailable && repo.default_branch) {
+          const readme = document.createElement('a');
+          readme.className = 'btn';
+          readme.href = `https://github.com/${repo.full_name}/blob/${repo.default_branch}/README.md`;
+          readme.target = '_blank';
+          readme.rel = 'noopener noreferrer';
+          readme.textContent = 'README';
+          actions.appendChild(readme);
+        }
+        card.appendChild(actions);
+
+        const meta = document.createElement('div');
+        meta.className = 'repo-head';
+        meta.style.marginTop = '2px';
+        meta.style.fontSize = '12px';
+        meta.style.color = 'var(--muted)';
+        meta.textContent = '更新于 ' + formatDate(repo.pushed_at || repo.updated_at);
         card.appendChild(meta);
-        list.appendChild(card);
+
+        grid.appendChild(card);
       });
+
+      list.appendChild(grid);
+    }
+
+    function readFallback() {
+      const el = document.getElementById('repo-fallback');
+      try {
+        return JSON.parse(el.textContent);
+      } catch (_) {
+        return [];
+      }
     }
 
     async function loadRepos() {
       try {
-        const response = await fetch('https://api.github.com/users/' + owner + '/repos?per_page=100&sort=updated');
-        if (!response.ok) throw new Error('GitHub API error: ' + response.status);
+        const response = await fetch(`https://api.github.com/users/${OWNER}/repos?per_page=100&sort=updated`);
+        if (!response.ok) throw new Error('GitHub API error ' + response.status);
         const repos = await response.json();
+        if (!Array.isArray(repos)) throw new Error('Unexpected response');
+
+        // Try to enrich readme availability from the public API.
+        const projects = repos.filter(r => !r.fork && r.name !== SITE_REPO);
+        await Promise.all(projects.map(async repo => {
+          try {
+            const readmeRes = await fetch(`https://api.github.com/repos/${repo.full_name}/readme`, {
+              headers: { 'Accept': 'application/vnd.github+json' }
+            });
+            repo.has_readme = readmeRes.ok;
+            repo.default_branch = repo.default_branch || 'main';
+          } catch (_) {
+            repo.has_readme = repo.default_branch !== undefined;
+          }
+        }));
+
         renderRepos(repos);
       } catch (err) {
-        const fallbackEl = document.getElementById('repo-fallback');
-        const fallback = fallbackEl ? JSON.parse(fallbackEl.textContent) : [];
-        renderRepos(fallback);
-        const errEl = document.getElementById('repo-error');
-        if (errEl && fallback.length) {
-          errEl.hidden = false;
-          errEl.textContent = '当前显示为内置缓存数据，实时 GitHub 数据加载失败。';
-        }
+        renderRepos(readFallback());
+        const note = document.getElementById('repo-note');
+        if (note) note.hidden = false;
       }
     }
 
