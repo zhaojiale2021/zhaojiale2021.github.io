@@ -4,8 +4,40 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Alan Zhao · 嵌入式 / 汽车电子工程师</title>
+  <meta name="description" content="Alan Zhao —— 嵌入式 / 汽车电子工程师，专注 AUTOSAR、CAN/CANFD、DoIP / SOME/IP 与域控制器底层开发，4 年主机厂量产项目经验，现居苏州。">
+  <meta name="author" content="Alan Zhao">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f4f6fb" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1020" media="(prefers-color-scheme: dark)">
+  <link rel="canonical" href="https://zhaojiale2021.github.io/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Crect%20width='100'%20height='100'%20rx='22'%20fill='%232f6fed'/%3E%3Ctext%20x='50'%20y='70'%20font-size='54'%20font-family='sans-serif'%20text-anchor='middle'%20fill='%23fff'%3EAZ%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://avatars.githubusercontent.com">
+  <meta property="og:type" content="profile">
+  <meta property="og:title" content="Alan Zhao · 嵌入式 / 汽车电子工程师">
+  <meta property="og:description" content="专注 AUTOSAR、CAN/CANFD、DoIP / SOME/IP 与域控制器底层开发，4 年主机厂量产项目经验，现居苏州。">
+  <meta property="og:url" content="https://zhaojiale2021.github.io/">
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/86412178?v=4">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "mainEntity": {
+      "@type": "Person",
+      "name": "Alan Zhao",
+      "jobTitle": "嵌入式 / 汽车电子工程师",
+      "url": "https://zhaojiale2021.github.io/",
+      "image": "https://avatars.githubusercontent.com/u/86412178?v=4",
+      "sameAs": ["https://github.com/zhaojiale2021"],
+      "knowsAbout": ["AUTOSAR", "CAN/CANFD", "DoIP", "SOME/IP", "UDS", "域控制器底层开发"]
+    }
+  }
+  </script>
   <script>
     (function () {
+      // 标记 JS 可用：入场动画只在有 JS 时隐藏内容，否则页面必须默认可见
+      document.documentElement.classList.add('js');
       const saved = localStorage.getItem('theme');
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
@@ -102,7 +134,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      backdrop-filter: blur(10px);
       transition: transform .2s ease, background .2s ease;
     }
     .theme-toggle:hover { transform: rotate(18deg) scale(1.06); }
@@ -125,17 +156,18 @@
         radial-gradient(circle at 12% 82%, rgba(255,255,255,.10), transparent 32%);
       pointer-events: none;
     }
+    /* 用径向渐变代替 filter: blur()——观感接近，但不必每帧做模糊运算 */
     .orb {
       position: absolute;
       border-radius: 50%;
-      filter: blur(48px);
-      opacity: .5;
+      opacity: .55;
       animation: float 9s ease-in-out infinite;
+      will-change: transform;
       pointer-events: none;
     }
-    .orb-1 { width: 240px; height: 240px; background: #5b9dff; top: -60px; left: 8%; }
-    .orb-2 { width: 180px; height: 180px; background: #a78bfa; bottom: -50px; right: 8%; animation-delay: -3s; }
-    .orb-3 { width: 120px; height: 120px; background: #34d399; top: 52%; right: 20%; animation-delay: -6s; }
+    .orb-1 { width: 380px; height: 380px; background: radial-gradient(circle, rgba(91,157,255,.9), rgba(91,157,255,0) 70%); top: -110px; left: 2%; }
+    .orb-2 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(167,139,250,.85), rgba(167,139,250,0) 70%); bottom: -90px; right: 2%; animation-delay: -3s; }
+    .orb-3 { width: 200px; height: 200px; background: radial-gradient(circle, rgba(52,211,153,.75), rgba(52,211,153,0) 70%); top: 48%; right: 16%; animation-delay: -6s; }
     @keyframes float {
       0%, 100% { transform: translateY(0) translateX(0) scale(1); }
       50% { transform: translateY(-26px) translateX(18px) scale(1.06); }
@@ -148,19 +180,35 @@
       margin: 0 auto;
       animation: fadeInUp .8s ease both;
     }
-    .avatar {
+    .avatar-wrap {
+      position: relative;
+      display: inline-block;
       width: 126px;
       height: 126px;
+    }
+    .avatar {
+      display: block;
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
       object-fit: cover;
       border: 5px solid rgba(255,255,255,.88);
       box-shadow: 0 12px 36px rgba(0,0,0,.3);
       background: #fff;
-      animation: avatarPulse 4s ease-in-out infinite;
+    }
+    /* 呼吸光环只做 transform / opacity，避免每帧重绘 box-shadow */
+    .avatar-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.5);
+      animation: avatarPulse 4s ease-out infinite;
+      pointer-events: none;
     }
     @keyframes avatarPulse {
-      0%, 100% { box-shadow: 0 12px 36px rgba(0,0,0,.3), 0 0 0 0 rgba(255,255,255,.25); }
-      50% { box-shadow: 0 12px 36px rgba(0,0,0,.3), 0 0 0 14px rgba(255,255,255,0); }
+      0% { transform: scale(1); opacity: .55; }
+      100% { transform: scale(1.24); opacity: 0; }
     }
     .hero h1 {
       font-size: 38px;
@@ -184,7 +232,6 @@
       border: 1px solid rgba(255,255,255,.3);
       color: #fff;
       font-size: 14px;
-      backdrop-filter: blur(8px);
       transition: transform .18s ease, background .18s ease;
     }
     .hero-btn:hover { background: rgba(255,255,255,.25); transform: translateY(-2px); text-decoration: none; }
@@ -197,11 +244,11 @@
       padding: 30px;
       margin-top: 28px;
       box-shadow: var(--shadow);
-      opacity: 0;
-      transform: translateY(22px);
       transition: opacity .7s ease, transform .7s ease, box-shadow .3s ease, background .35s ease, border-color .35s ease;
     }
-    .card.visible { opacity: 1; transform: translateY(0); }
+    /* 入场动画只在 JS 可用时生效；脚本挂了页面也必须能看 */
+    html.js .card { opacity: 0; transform: translateY(22px); }
+    html.js .card.visible { opacity: 1; transform: translateY(0); }
     .card:hover { box-shadow: 0 18px 44px rgba(0,0,0,.10); }
 
     .section-title {
@@ -221,8 +268,8 @@
       animation: titleGlow 3s ease-in-out infinite;
     }
     @keyframes titleGlow {
-      0%, 100% { box-shadow: 0 0 0 rgba(47,111,237,0); }
-      50% { box-shadow: 0 0 14px rgba(47,111,237,.7); }
+      0%, 100% { opacity: 1; }
+      50% { opacity: .72; }
     }
     .section-title .hint { font-size: 13px; font-weight: 400; color: var(--muted); }
 
@@ -384,8 +431,8 @@
       animation: dotPulse 2.4s ease-in-out infinite;
     }
     @keyframes dotPulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(47,111,237,.25); }
-      50% { box-shadow: 0 0 0 6px rgba(47,111,237,0); }
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.35); opacity: .75; }
     }
     .work-item b { font-weight: 600; }
     .work-item span { color: var(--muted); font-size: 14px; }
@@ -398,7 +445,11 @@
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-      .card { opacity: 1; transform: none; }
+      html.js .card { opacity: 1; transform: none; }
+    }
+    /* 高对比度模式下渐变文字会被抹平，退回纯色保证可读 */
+    @media (forced-colors: active) {
+      .hero h1 { background: none; -webkit-text-fill-color: currentColor; }
     }
   </style>
 </head>
@@ -410,7 +461,10 @@
     <span class="orb orb-2"></span>
     <span class="orb orb-3"></span>
     <div class="hero-content">
-      <img class="avatar" src="https://avatars.githubusercontent.com/u/86412178?v=4" alt="Alan Zhao GitHub 头像">
+      <span class="avatar-wrap">
+        <img class="avatar" src="https://avatars.githubusercontent.com/u/86412178?v=4" alt="Alan Zhao GitHub 头像"
+             width="126" height="126" fetchpriority="high" decoding="async">
+      </span>
       <h1>Alan Zhao</h1>
       <p class="subtitle">Alan Zhao · 嵌入式 / 汽车电子工程师 · 苏州</p>
       <p class="desc">专注车载 AUTOSAR、通信协议栈、域控制器底层开发，擅长用 AI 工具提升嵌入式开发效率。</p>
@@ -776,6 +830,11 @@
       }
     }
 
+    // 内置缓存里带着 has_readme / default_branch，实时接口并不返回这两项。
+    // 早先的写法是给每个仓库再请求一次 README，没有 README 的仓库会返回 404：
+    // 既多花请求，又会在控制台留下报错（Lighthouse 的 errors-in-console 会扣分）。
+    const CACHED = Object.fromEntries(readFallback().map(repo => [repo.name, repo]));
+
     async function loadRepos() {
       try {
         const response = await fetch(`https://api.github.com/users/${OWNER}/repos?per_page=100&sort=updated`);
@@ -783,19 +842,16 @@
         const repos = await response.json();
         if (!Array.isArray(repos)) throw new Error('Unexpected response');
 
-        const projects = repos.filter(r => !r.fork && r.name !== SITE_REPO);
-        await Promise.all(projects.map(async repo => {
-          try {
-            const readmeRes = await fetch(`https://api.github.com/repos/${repo.full_name}/readme`, {
-              headers: { 'Accept': 'application/vnd.github+json' }
+        const projects = repos
+          .filter(repo => !repo.fork && repo.name !== SITE_REPO)
+          .map(repo => {
+            const cached = CACHED[repo.name] || {};
+            return Object.assign({}, repo, {
+              has_readme: cached.has_readme !== undefined ? cached.has_readme : true,
+              default_branch: repo.default_branch || cached.default_branch || 'main'
             });
-            repo.has_readme = readmeRes.ok;
-            repo.default_branch = repo.default_branch || 'main';
-          } catch (_) {
-            repo.has_readme = repo.default_branch !== undefined;
-          }
-        }));
-        renderRepos(repos);
+          });
+        renderRepos(projects);
       } catch (err) {
         renderRepos(readFallback());
         const note = document.getElementById('repo-note');
@@ -810,6 +866,7 @@
     function updateThemeIcon() {
       const isDark = document.documentElement.dataset.theme === 'dark';
       themeToggle.textContent = isDark ? sun : moon;
+      themeToggle.setAttribute('aria-label', isDark ? '切换到浅色模式' : '切换到深色模式');
     }
     themeToggle.addEventListener('click', () => {
       const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
