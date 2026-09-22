@@ -46,4 +46,6 @@ jobs:
         with:
           name: lighthouse-report
           path: .lighthouseci
+          # 目录名以点开头, 不显式打开这个开关会被 upload-artifact 当成隐藏文件跳过
+          include-hidden-files: true
           if-no-files-found: ignore
