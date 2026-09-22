@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
-"""刷新 index.html 里的内置仓库缓存。
+"""刷新 index.html 里的公开仓库数据。
 
-页面「公开项目」区域优先实时调用 GitHub API，失败（断网 / 限流 / 接口变动）时
-回退到 ``<script id="repo-fallback">`` 里的这份缓存。本脚本按 GitHub 上的真实
-仓库刷新缓存，让回退路径也显示最新数据。
+页面「公开项目」区域的数据**全部**来自 ``<script id="repo-data">`` 里的这份 JSON——
+页面本身不再请求 GitHub API（未认证限流按出口 IP 共享，公司网络下很容易整体失败，
+而且抓取器与无 JS 环境都看不到运行时渲染的内容）。数据由本脚本或
+``.github/workflows/sync-repos.yml`` 定期刷新。
 
 用法::
 
     python scripts/sync_repos.py               # 拉取 GitHub 并写回 index.html
-    python scripts/sync_repos.py --check       # 离线校验缓存格式（CI 用，不联网）
-    python scripts/sync_repos.py --check-live  # 联网比对缓存与线上仓库，只报告不写回
+    python scripts/sync_repos.py --check       # 离线校验数据格式（CI 用，不联网）
+    python scripts/sync_repos.py --check-live  # 联网比对数据与线上仓库，只报告不写回
 
 CI 里可用 ``GITHUB_TOKEN`` 提高限流额度；脚本只写公开仓库，带 token 也不会把
 私有仓库带进页面。
@@ -24,6 +25,7 @@ import re
 import sys
 import urllib.error
 import urllib.request
+from datetime import datetime, timezone
 from pathlib import Path
 
 OWNER = "zhaojiale2021"
@@ -50,12 +52,16 @@ FIELDS = (
 )
 
 BLOCK = re.compile(
-    r'(?P<open><script id="repo-fallback" type="application/json">)'
+    r'(?P<open><script id="repo-data" type="application/json">)'
     r"(?P<body>.*?)"
     r"(?P<close></script>)",
     re.S,
 )
 ISO_UTC = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z")
+
+
+def now_utc() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def log(message: str) -> None:
@@ -125,9 +131,9 @@ def fetch_repos(cached: dict) -> list[dict]:
     return entries
 
 
-def render(entries: list[dict]) -> str:
+def render(synced_at: str, entries: list[dict]) -> str:
     """按 index.html 里的缩进风格序列化（整块再缩进 2 个空格）。"""
-    body = json.dumps(entries, ensure_ascii=False, indent=2)
+    body = json.dumps({"synced_at": synced_at, "repos": entries}, ensure_ascii=False, indent=2)
     return "\n".join(f"  {line}" for line in body.splitlines())
 
 
@@ -142,19 +148,23 @@ def read_cached():
     text = raw.decode("utf-8").replace("\r\n", "\n")
     match = BLOCK.search(text)
     if match is None:
-        raise SystemExit('index.html 里找不到 <script id="repo-fallback"> 块')
+        raise SystemExit('index.html 里找不到 <script id="repo-data"> 块')
     try:
-        entries = json.loads(match.group("body"))
+        data = json.loads(match.group("body"))
     except json.JSONDecodeError as error:
-        raise SystemExit(f"内置缓存不是合法 JSON：{error}")
-    if not isinstance(entries, list):
-        raise SystemExit("内置缓存应该是 JSON 数组")
-    return text, newline, match, entries
+        raise SystemExit(f"页面内置数据不是合法 JSON：{error}")
+    if isinstance(data, list):  # 兼容早期「顶层是数组」的旧格式
+        data = {"synced_at": None, "repos": data}
+    if not isinstance(data, dict) or not isinstance(data.get("repos"), list):
+        raise SystemExit('内置数据应该是 {"synced_at": ..., "repos": [...]}')
+    return text, newline, match, data.get("synced_at"), data["repos"]
 
 
-def check(entries: list[dict]) -> list[str]:
-    """校验缓存内容是否符合页面约定（离线）。"""
+def check(entries: list[dict], synced_at: str | None) -> list[str]:
+    """校验数据内容是否符合页面约定（离线）。"""
     problems = []
+    if synced_at and not ISO_UTC.fullmatch(synced_at):
+        problems.append(f"synced_at 不是 UTC ISO 时间：{synced_at}")
     if len({entry.get("name") for entry in entries}) != len(entries):
         problems.append("存在重名仓库")
 
@@ -203,9 +213,11 @@ def diff(cached: list[dict], fresh: list[dict]) -> list[str]:
     return lines
 
 
-def write(text: str, newline: str, match: re.Match, entries: list[dict]) -> bool:
-    """把新缓存写回 index.html，内容没变则不动文件。"""
-    body = f"\n{render(entries)}\n  "
+def write(
+    text: str, newline: str, match: re.Match, synced_at: str, entries: list[dict]
+) -> bool:
+    """把新数据写回 index.html，内容没变则不动文件。"""
+    body = f"\n{render(synced_at, entries)}\n  "
     updated = text[: match.start("body")] + body + text[match.end("body") :]
     if updated == text:
         return False
@@ -214,25 +226,25 @@ def write(text: str, newline: str, match: re.Match, entries: list[dict]) -> bool
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="刷新 index.html 内置仓库缓存")
+    parser = argparse.ArgumentParser(description="刷新 index.html 里的公开仓库数据")
     group = parser.add_mutually_exclusive_group()
-    group.add_argument("--check", action="store_true", help="离线校验缓存格式（不联网）")
+    group.add_argument("--check", action="store_true", help="离线校验数据格式（不联网）")
     group.add_argument(
-        "--check-live", action="store_true", help="联网比对缓存与线上仓库，只报告不写回"
+        "--check-live", action="store_true", help="联网比对数据与线上仓库，只报告不写回"
     )
     args = parser.parse_args()
 
-    text, newline, match, cached = read_cached()
+    text, newline, match, synced_at, cached = read_cached()
     cached_by_name = {entry["name"]: entry for entry in cached}
 
     if args.check:
-        problems = check(cached)
+        problems = check(cached, synced_at)
         if problems:
-            log("内置缓存校验未通过：")
+            log("内置数据校验未通过：")
             for problem in problems:
                 log(f"  - {problem}")
             return 1
-        log(f"内置缓存校验通过：{len(cached)} 个公开仓库")
+        log(f"内置数据校验通过：{len(cached)} 个公开仓库，同步于 {synced_at or '未知'}")
         return 0
 
     fresh = fetch_repos(cached_by_name)
@@ -240,26 +252,28 @@ def main() -> int:
 
     if args.check_live:
         if not lines:
-            log("缓存与线上一致")
+            log(f"数据与线上一致（页面内置数据同步于 {synced_at or '未知'}）")
             return 0
-        log("缓存与线上存在差异（未写回，去掉 --check-live 即可刷新）：")
+        log("数据与线上存在差异（未写回，去掉 --check-live 即可刷新）：")
         for line in lines:
             log(f"  {line}")
         return 0
 
-    problems = check(fresh)
+    problems = check(fresh, now_utc())
     if problems:
-        log("新缓存未通过校验，已放弃写回：")
+        log("新数据未通过校验，已放弃写回：")
         for problem in problems:
             log(f"  - {problem}")
         return 1
 
-    if write(text, newline, match, fresh):
-        log("index.html 内置缓存已更新：")
-        for line in lines:
+    # 就算仓库列表没变也写回：时间戳让页面上「同步于……」保持真实，
+    # 顺带每周产生一次提交，避免公共仓库闲置 60 天后定时任务被 GitHub 停掉。
+    if write(text, newline, match, now_utc(), fresh):
+        log("index.html 内置数据已更新：")
+        for line in lines or ["（仓库列表无变化，仅刷新同步时间）"]:
             log(f"  {line}")
     else:
-        log("缓存已是最新，未改动 index.html")
+        log("数据无变化，未改动 index.html")
     return 0
 
 

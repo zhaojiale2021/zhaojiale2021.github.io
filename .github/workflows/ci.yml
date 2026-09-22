@@ -35,8 +35,8 @@ jobs:
         with:
           python-version: "3.13"
 
-      # 校验 index.html 里 <script id="repo-fallback"> 的字段、顺序与格式 (不联网)
-      - name: 内置仓库缓存
+      # 校验 index.html 里 <script id="repo-data"> 的字段、顺序与格式 (不联网)
+      - name: 内置仓库数据
         run: python scripts/sync_repos.py --check
 
   links:

@@ -29,14 +29,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/sync_repos.py
 
-      - name: 有变化就提交
+      - name: 提交（含 synced_at 时间戳，每周一次，顺带让定时任务不被停用）
         run: |
           if git diff --quiet; then
-            echo "缓存已是最新，无需提交"
+            echo "数据无变化，无需提交"
             exit 0
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "chore: sync GitHub repository cache"
+          git commit -m "chore: sync GitHub repository data"
           git push

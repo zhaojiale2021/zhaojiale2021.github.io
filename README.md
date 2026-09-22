@@ -15,8 +15,8 @@ Alan Zhao 的个人主页 —— 嵌入式 / 汽车电子工程师（AUTOSAR · 
 | 区块 | 内容 |
 |---|---|
 | 个人画像 | 简介、任职经历时间线、技能标签 |
+| 公开项目 | 页面内置的公开仓库数据（剔除 fork 与本仓库），显示语言、话题、更新时间与 README 入口 |
 | 私有仓库 | 个人工具链 / AI 效率工程精选（仅展示，卡片标「私有」，不给链接） |
-| 公开项目 | 实时拉取 GitHub 公开仓库（剔除 fork 与本仓库），显示语言、话题、更新时间与 README 入口 |
 
 另有浅色 / 深色主题切换、滚动入场动画等，并遵循 `prefers-reduced-motion`。
 
@@ -24,7 +24,7 @@ Alan Zhao 的个人主页 —— 嵌入式 / 汽车电子工程师（AUTOSAR · 
 
 ```
 index.html                        # 页面全部内容：样式、结构、脚本都在这一个文件里
-scripts/sync_repos.py             # 刷新 index.html 里的内置仓库缓存
+scripts/sync_repos.py             # 刷新 index.html 里的公开仓库数据（页面的唯一数据源）
 .github/workflows/ci.yml          # HTML 结构 / 缓存 JSON / 死链检查
 .github/workflows/sync-repos.yml  # 定时刷新内置缓存并提交
 .github/workflows/lighthouse.yml  # Lighthouse 性能与无障碍审计
@@ -34,16 +34,18 @@ lighthouserc.json                 # Lighthouse 审计与评分门槛
 
 ## 「公开项目」区块是怎么工作的
 
-1. 页面先匿名请求 `https://api.github.com/users/zhaojiale2021/repos`，剔除 fork 与本仓库，按最近推送时间倒序；
-2. 逐个探测 README 是否存在，据此决定要不要显示 README 按钮；
-3. 请求失败（断网、限流、接口变动）时回退到 `index.html` 中 `<script id="repo-fallback">` 的内置缓存，并在区块底部给出提示。
+数据全部来自 `index.html` 里 `<script id="repo-data">` 的 JSON，**页面不请求 GitHub API**：
 
-内置缓存由 `scripts/sync_repos.py` 维护：
+- 未认证的 GitHub API 限流是 60 次/小时、按出口 IP 共享，公司网络下很容易整体失败；
+- 抓取器和无 JS 环境看不到运行时渲染的内容；
+- 仓库列表变动很慢，为它付运行时成本不划算。
+
+数据由 `scripts/sync_repos.py` 维护，页面底部会标出「同步于 ……」：
 
 ```bash
 python scripts/sync_repos.py               # 拉取 GitHub 并写回 index.html
-python scripts/sync_repos.py --check       # 离线校验缓存格式（CI 用，不联网）
-python scripts/sync_repos.py --check-live  # 联网比对缓存与线上仓库，只报告不写回
+python scripts/sync_repos.py --check       # 离线校验数据格式（CI 用，不联网）
+python scripts/sync_repos.py --check-live  # 联网比对数据与线上仓库，只报告不写回
 ```
 
 脚本只写公开仓库——即使带上 `GITHUB_TOKEN`，私有仓库也不会被写进页面。
@@ -60,11 +62,13 @@ python -m http.server 8000    # 访问 http://localhost:8000
 
 | Workflow | 触发 | 做什么 |
 |---|---|---|
-| `ci.yml` | push / PR / 手动 | `html-validate` 校验页面结构；校验内置缓存 JSON 的字段、排序与格式；`lychee` 检查死链 |
-| `sync-repos.yml` | 每周一 + 手动 | 拉取公开仓库刷新内置缓存，有变化就提交（Pages 随之重新发布） |
+| `ci.yml` | push / PR / 手动 | `html-validate` 校验页面结构；校验内置数据 JSON 的字段、排序与 `synced_at` 格式；`lychee` 检查死链 |
+| `sync-repos.yml` | 每周一 + 手动 | 拉取公开仓库刷新页面内置数据并提交（Pages 随之重新发布） |
 | `lighthouse.yml` | push / PR / 手动 | LHCI 起本地静态服务器跑审计：无障碍 ≥ 0.9 为门槛，性能 / 最佳实践 / SEO 只给提示 |
 
 私有仓库链接与 `localhost` 预览地址在 `lychee.toml` 里被排除：前者匿名请求必然 404。
+
+`synced_at` 每次同步都会更新，因此每周都会产生一次提交——这同时避免了公共仓库闲置 60 天后，GitHub 自动停掉定时 workflow。
 
 ## 相关仓库
 
