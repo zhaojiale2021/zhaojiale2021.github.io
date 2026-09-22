@@ -403,7 +403,7 @@
   </style>
 </head>
 <body>
-  <button class="theme-toggle" id="theme-toggle" aria-label="切换浅色 / 深色模式">🌙</button>
+  <button class="theme-toggle" id="theme-toggle" type="button" aria-label="切换浅色 / 深色模式">🌙</button>
 
   <header class="hero">
     <span class="orb orb-1"></span>
@@ -475,7 +475,7 @@
     </section>
 
     <section class="card">
-      <h2 class="section-title">私有仓库 <span class="hint">个人工具链 / AI 效率工程</span></h2>
+      <h2 class="section-title">私有仓库 <span class="hint">工具链 / 诊断 · 通信 / 知识库 / AI 效率</span></h2>
       <div class="repo-grid">
         <article class="repo-card private">
           <div class="repo-head">
@@ -490,12 +490,12 @@
 
         <article class="repo-card private">
           <div class="repo-head">
-            <span class="repo-name">etasarxmlgenerator</span>
+            <span class="repo-name">skills</span>
             <span class="badge private">私有</span>
-            <span class="badge">Python</span>
+            <span class="badge">Python / Jinja2</span>
           </div>
-          <p class="repo-desc">DBC → 中间 CSV → ETAS ARXML 的自动化生成工具，基于 Jinja2 模板批量生成 CAN、CanIf、CanNm、Com、PduR、CanTp 等模块配置。</p>
-          <div class="repo-topics"><span class="topic">DBC</span><span class="topic">ARXML</span><span class="topic">AUTOSAR</span><span class="topic">Jinja2</span><span class="topic">CLI</span></div>
+          <p class="repo-desc">面向汽车电子研发的 Agent Skills 仓库（承接原 etasarxmlgenerator）：DBC → CSV → ETAS ARXML 生成流水线、ISOLAR-AB 无头生成、J6 变体管理、Jira / 周报工作流，同时作为 Claude Code 插件市场 work-skills 发布。</p>
+          <div class="repo-topics"><span class="topic">Agent Skills</span><span class="topic">AUTOSAR</span><span class="topic">DBC → ARXML</span><span class="topic">ETAS</span><span class="topic">Plugin Marketplace</span></div>
           <div class="repo-actions"><span class="btn disabled">私有 · 仅本人可访问</span></div>
         </article>
 
@@ -509,7 +509,41 @@
           <div class="repo-topics"><span class="topic">AI Agent</span><span class="topic">Memory</span><span class="topic">Sync</span><span class="topic">Hooks</span><span class="topic">Weekly Report</span></div>
           <div class="repo-actions"><span class="btn disabled">私有 · 仅本人可访问</span></div>
         </article>
+
+        <article class="repo-card private">
+          <div class="repo-head">
+            <span class="repo-name">doip-test</span>
+            <span class="badge private">私有</span>
+            <span class="badge">Python</span>
+          </div>
+          <p class="repo-desc">DoIP（ISO 13400）+ UDS（ISO 14229）诊断与刷写测试脚本：命令行直连 ECU，支持批量读取 DID、切换编程会话、诊断服务验证，依赖 doipclient / udsoncan。</p>
+          <div class="repo-topics"><span class="topic">DoIP</span><span class="topic">UDS</span><span class="topic">ISO 13400</span><span class="topic">诊断刷写</span></div>
+          <div class="repo-actions"><span class="btn disabled">私有 · 仅本人可访问</span></div>
+        </article>
+
+        <article class="repo-card private">
+          <div class="repo-head">
+            <span class="repo-name">someip-test</span>
+            <span class="badge private">私有</span>
+            <span class="badge">Python / C++</span>
+          </div>
+          <p class="repo-desc">基于 scapy 的 SOME/IP-SD 应答器：监听网卡报文并自动应答 ECU 的 SD 消息，附带 SOME/IP 协议库（含 C++ 移植）与服务接口表导出工具。</p>
+          <div class="repo-topics"><span class="topic">SOME/IP</span><span class="topic">SD</span><span class="topic">scapy</span><span class="topic">车载以太网</span></div>
+          <div class="repo-actions"><span class="btn disabled">私有 · 仅本人可访问</span></div>
+        </article>
+
+        <article class="repo-card private">
+          <div class="repo-head">
+            <span class="repo-name">personal-knowledge-base</span>
+            <span class="badge private">私有</span>
+            <span class="badge">Markdown / Obsidian</span>
+          </div>
+          <p class="repo-desc">汽车电子 / AUTOSAR / MCU 技术笔记库（Obsidian vault）：310 篇笔记按 16 个主题整理，主题间 wikilink 互连，附带结构体检与索引重建脚本。</p>
+          <div class="repo-topics"><span class="topic">Obsidian</span><span class="topic">知识库</span><span class="topic">AUTOSAR</span><span class="topic">Markdown</span></div>
+          <div class="repo-actions"><span class="btn disabled">私有 · 仅本人可访问</span></div>
+        </article>
       </div>
+      <p class="note">以上为私有仓库节选，另有若干个人项目未列出；私有仓库不对公开访问，因此卡片不提供外链。</p>
     </section>
 
     <section class="card">
@@ -528,12 +562,34 @@
   <script id="repo-fallback" type="application/json">
   [
     {
+      "name": "vscode-agent-sdk-update",
+      "full_name": "zhaojiale2021/vscode-agent-sdk-update",
+      "html_url": "https://github.com/zhaojiale2021/vscode-agent-sdk-update",
+      "description": "Pre-install VS Code/Insiders agent-host SDK cache (claude/codex) so you can use local agents without a Copilot subscription; fixes \"[Claude] SDK not downloaded yet...\" that never triggers. Local (%APPDATA%/~) + SSH push.",
+      "language": "Python",
+      "topics": [],
+      "fork": false,
+      "homepage": null,
+      "license": "MIT",
+      "default_branch": "main",
+      "has_readme": true,
+      "updated_at": "2026-09-22T07:46:56Z",
+      "pushed_at": "2026-09-22T07:46:52Z"
+    },
+    {
       "name": "omniview",
       "full_name": "zhaojiale2021/omniview",
       "html_url": "https://github.com/zhaojiale2021/omniview",
       "description": "360° panorama video player built with Rust (ffmpeg-next + wgpu + egui)",
       "language": "Rust",
-      "topics": ["egui", "ffmpeg", "panorama", "rust", "video-player", "wgpu"],
+      "topics": [
+        "egui",
+        "ffmpeg",
+        "panorama",
+        "rust",
+        "video-player",
+        "wgpu"
+      ],
       "fork": false,
       "homepage": null,
       "license": "MIT",
@@ -579,11 +635,13 @@
     const OWNER = 'zhaojiale2021';
     const SITE_REPO = 'zhaojiale2021.github.io';
     const NAME_MAP = {
+      'vscode-agent-sdk-update': 'VS Code Agent SDK Cache',
       'omniview': 'Omniview',
       'autosar-busmirror-dissector': 'Autosar BusMirror Dissector',
       'USB2X': 'USB2X'
     };
     const DESC_MAP = {
+      'vscode-agent-sdk-update': '为 VS Code / Insiders 预置 agent-host 的 claude / codex SDK 缓存，让本地 agent 在没有 Copilot 订阅时也能直接可用（本地与 SSH 远端）。',
       'omniview': '基于 Rust（ffmpeg-next + wgpu + egui）的 360° 全景视频播放器，支持普通视频/全景视频、多音轨、字幕、播放列表等。',
       'autosar-busmirror-dissector': 'AUTOSAR BusMirror 协议的 Wireshark Lua dissector，附带测试报文生成器，支持 CAN / LIN / FlexRay / Ethernet 样例。',
       'USB2X': '使用 STM32 等 MCU 实现 USB 转任意通信协议的固件 / 工具项目。'
