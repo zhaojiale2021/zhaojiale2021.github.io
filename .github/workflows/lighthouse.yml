@@ -1,0 +1,49 @@
+name: Lighthouse
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    name: 性能 / 无障碍审计
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: 准备 Chrome
+        run: |
+          # runner 自带 Chrome; 万一没有就现装一个, LHCI 靠 CHROME_PATH 找到它
+          if command -v google-chrome >/dev/null 2>&1; then
+            chrome="$(command -v google-chrome)"
+          else
+            npx --yes @puppeteer/browsers@3 install chrome@stable --path "$RUNNER_TEMP/chrome" >/dev/null
+            chrome="$(find "$RUNNER_TEMP/chrome" -type f -name chrome | head -n1)"
+          fi
+          echo "CHROME_PATH=$chrome" >> "$GITHUB_ENV"
+          "$chrome" --version
+
+      # 静态服务器由 LHCI 按 lighthouserc.json 的 staticDistDir 自行拉起
+      - name: 跑 Lighthouse
+        run: npx --yes @lhci/cli@0.15 autorun
+
+      - name: 上传报告
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse-report
+          path: .lighthouseci
+          if-no-files-found: ignore

@@ -1,0 +1,15 @@
+# lychee 死链检查配置 (https://lychee.cli.rs)
+
+# 网络抖动时重试几次，别让偶发的 5xx 变成红灯
+max_retries = 2
+retry_wait_time = 2
+accept = ["200..=204", "206", "429"]
+
+# localhost 只在本地预览时存在；私有仓库链接对匿名请求必然 404
+exclude = [
+  "^http://localhost",
+  "^http://127\\.0\\.0\\.1",
+]
+exclude_path = [
+  "^/zhaojiale2021/(CAN_CRC_Checker|skills|agent-memory|doip-test|someip-test|personal-knowledge-base|growth-roadmap|stock-trading|PCAN|Graduation-project)$",
+]
