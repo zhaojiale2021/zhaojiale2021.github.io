@@ -718,11 +718,10 @@
 
     function formatDate(value) {
       if (!value) return '';
-      try {
-        return new Date(value).toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' });
-      } catch (_) {
-        return value;
-      }
+      // 直接从 ISO 串取日期：toLocaleDateString('zh-CN') 首次调用要加载 Intl 数据，
+      // 在 4x CPU 降速下这一项就能吃掉几百毫秒的脚本执行时间
+      const parts = /^(\d{4})-(\d{2})-(\d{2})/.exec(value);
+      return parts ? `${parts[1]}-${parts[2]}-${parts[3]}` : value;
     }
 
     function renderRepos(repos) {
