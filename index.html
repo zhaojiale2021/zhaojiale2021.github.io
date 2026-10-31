@@ -542,17 +542,6 @@
       <div class="repo-grid">
         <article class="repo-card private">
           <div class="repo-head">
-            <span class="repo-name">CAN_CRC_Checker</span>
-            <span class="badge private">私有</span>
-            <span class="badge">Python</span>
-          </div>
-          <p class="repo-desc">DBC 感知的 CAN 总线 CRC / Rolling Counter 校验工具，支持 E2E Profile 5 与 Profile 1/1A，服务 GAC、GWM、Chery 等客户项目。</p>
-          <div class="repo-topics"><span class="topic">CAN</span><span class="topic">CRC</span><span class="topic">E2E</span><span class="topic">DBC</span><span class="topic">BLF/ASC/MF4</span></div>
-          <div class="repo-actions"><span class="btn disabled">私有 · 仅本人可访问</span></div>
-        </article>
-
-        <article class="repo-card private">
-          <div class="repo-head">
             <span class="repo-name">skills</span>
             <span class="badge private">私有</span>
             <span class="badge">Python / Jinja2</span>
@@ -617,8 +606,60 @@
 
   <script id="repo-data" type="application/json">
   {
-    "synced_at": "2026-10-26T08:55:16Z",
+    "synced_at": "2026-10-31T14:57:19Z",
     "repos": [
+      {
+        "name": "USB2X",
+        "full_name": "zhaojiale2021/USB2X",
+        "html_url": "https://github.com/zhaojiale2021/USB2X",
+        "description": "STM32F072 USB-to-CAN adapter firmware emulating the PEAK PCAN-USB protocol - CMake + xmake builds, five board variants",
+        "language": "C",
+        "topics": [
+          "can-bus",
+          "canable",
+          "cantact",
+          "cmake",
+          "cortex-m0",
+          "firmware",
+          "pcan",
+          "pcan-usb",
+          "stm32",
+          "stm32f072",
+          "usb",
+          "xmake"
+        ],
+        "fork": false,
+        "homepage": null,
+        "license": "MIT",
+        "default_branch": "main",
+        "has_readme": true,
+        "updated_at": "2026-10-31T14:14:33Z",
+        "pushed_at": "2026-10-31T14:14:30Z"
+      },
+      {
+        "name": "CAN_CRC_Checker",
+        "full_name": "zhaojiale2021/CAN_CRC_Checker",
+        "html_url": "https://github.com/zhaojiale2021/CAN_CRC_Checker",
+        "description": "DBC-aware CAN bus CRC / rolling-counter verification for BLF, ASC, MF4 and TRC traces. Configurable signal-name patterns and DataID layouts; E2E Profile 1/5.",
+        "language": "Python",
+        "topics": [
+          "automotive",
+          "autosar",
+          "can-bus",
+          "crc",
+          "dbc",
+          "e2e",
+          "python",
+          "trace-analysis"
+        ],
+        "fork": false,
+        "homepage": null,
+        "license": "MIT",
+        "default_branch": "master",
+        "has_readme": true,
+        "updated_at": "2026-10-30T05:14:18Z",
+        "pushed_at": "2026-10-29T11:27:36Z"
+      },
       {
         "name": "vscode-agent-sdk-update",
         "full_name": "zhaojiale2021/vscode-agent-sdk-update",
@@ -670,21 +711,6 @@
         "has_readme": true,
         "updated_at": "2026-05-30T06:05:52Z",
         "pushed_at": "2026-05-30T06:05:48Z"
-      },
-      {
-        "name": "USB2X",
-        "full_name": "zhaojiale2021/USB2X",
-        "html_url": "https://github.com/zhaojiale2021/USB2X",
-        "description": "USB to any communication protocal using mcu like STM32",
-        "language": "C",
-        "topics": [],
-        "fork": false,
-        "homepage": null,
-        "license": "MIT",
-        "default_branch": "main",
-        "has_readme": false,
-        "updated_at": "2026-05-19T18:54:17Z",
-        "pushed_at": "2026-05-19T18:54:09Z"
       }
     ]
   }
@@ -696,13 +722,15 @@
       'vscode-agent-sdk-update': 'VS Code Agent SDK Cache',
       'omniview': 'Omniview',
       'autosar-busmirror-dissector': 'Autosar BusMirror Dissector',
-      'USB2X': 'USB2X'
+      'USB2X': 'USB2X',
+      'CAN_CRC_Checker': 'CAN CRC Checker'
     };
     const DESC_MAP = {
       'vscode-agent-sdk-update': '为 VS Code / Insiders 预置 agent-host 的 claude / codex SDK 缓存，让本地 agent 在没有 Copilot 订阅时也能直接可用（本地与 SSH 远端）。',
       'omniview': '基于 Rust（ffmpeg-next + wgpu + egui）的 360° 全景视频播放器，支持普通视频/全景视频、多音轨、字幕、播放列表等。',
       'autosar-busmirror-dissector': 'AUTOSAR BusMirror 协议的 Wireshark Lua dissector，附带测试报文生成器，支持 CAN / LIN / FlexRay / Ethernet 样例。',
-      'USB2X': '使用 STM32 等 MCU 实现 USB 转任意通信协议的固件 / 工具项目。'
+      'USB2X': '基于 STM32F072 的 USB 转 CAN 适配器固件，兼容 PEAK PCAN-USB 协议；CMake / xmake 双构建，支持五种板型。',
+      'CAN_CRC_Checker': 'DBC 感知的 CAN 总线 CRC / Rolling Counter 校验工具，支持 E2E Profile 5 与 Profile 1/1A，解析 BLF / ASC / MF4 / TRC 报文并生成 HTML 报告。'
     };
 
     function languageColor(name) {

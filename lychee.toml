@@ -11,5 +11,5 @@ exclude = [
   "^http://127\\.0\\.0\\.1",
 ]
 exclude_path = [
-  "^/zhaojiale2021/(CAN_CRC_Checker|skills|agent-memory|doip-test|someip-test|personal-knowledge-base|growth-roadmap|stock-trading|PCAN|Graduation-project)$",
+  "^/zhaojiale2021/(skills|agent-memory|doip-test|someip-test|personal-knowledge-base|growth-roadmap|stock-trading|PCAN|Graduation-project)$",
 ]

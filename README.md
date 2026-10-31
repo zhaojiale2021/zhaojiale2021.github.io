@@ -76,12 +76,13 @@ python -m http.server 8000    # 访问 http://localhost:8000
 
 | 仓库 | 说明 |
 |---|---|
+| [CAN_CRC_Checker](https://github.com/zhaojiale2021/CAN_CRC_Checker) | DBC 感知的 CAN 总线 CRC / Rolling Counter 校验工具，支持 E2E Profile 5 与 Profile 1/1A，解析 BLF / ASC / MF4 / TRC 并生成 HTML 报告 |
+| [USB2X](https://github.com/zhaojiale2021/USB2X) | 基于 STM32F072 的 USB 转 CAN 适配器固件，兼容 PEAK PCAN-USB 协议，CMake / xmake 双构建、五种板型 |
 | [omniview](https://github.com/zhaojiale2021/omniview) | Rust 桌面视频播放器，支持 360° 全景视频（ffmpeg-next + wgpu + egui） |
 | [autosar-busmirror-dissector](https://github.com/zhaojiale2021/autosar-busmirror-dissector) | AUTOSAR BusMirror 协议的 Wireshark Lua dissector + 测试报文生成器 |
 | [vscode-agent-sdk-update](https://github.com/zhaojiale2021/vscode-agent-sdk-update) | 预置 VS Code / Insiders 的 agent-host SDK 缓存，没有 Copilot 订阅也能用本地 agent |
-| [USB2X](https://github.com/zhaojiale2021/USB2X) | 用 STM32 等 MCU 实现 USB 转任意通信协议 |
 
-私有（主页上有简介，仓库本身不可访问）：`CAN_CRC_Checker`、`skills`、`agent-memory`、`doip-test`、`someip-test`、`personal-knowledge-base` 等。
+私有（主页上有简介，仓库本身不可访问）：`skills`、`agent-memory`、`doip-test`、`someip-test`、`personal-knowledge-base` 等。
 
 ## 说明
 
