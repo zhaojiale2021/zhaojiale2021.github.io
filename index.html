@@ -365,6 +365,42 @@
       transition: background .3s ease, color .3s ease;
     }
     .badge.private { background: var(--priv-soft); color: var(--priv); border: 1px solid var(--priv-border); }
+    /* 语言徽标取 GitHub linguist 色系；深色主题换成提亮后的色值，保证对比度 */
+    .badge.lang { --lang-fg: var(--badge-text); --lang-bg: var(--badge-bg); background: var(--lang-bg); color: var(--lang-fg); }
+    .badge.lang-rust { --lang-fg: #8a4d1f; --lang-bg: #dea58422; }
+    .badge.lang-python { --lang-fg: #3572a5; --lang-bg: #3572a522; }
+    .badge.lang-c { --lang-fg: #555555; --lang-bg: #55555522; }
+    .badge.lang-cpp { --lang-fg: #9c2b6e; --lang-bg: #9c2b6e22; }
+    .badge.lang-lua { --lang-fg: #000080; --lang-bg: #00008022; }
+    .badge.lang-html { --lang-fg: #b63a1c; --lang-bg: #b63a1c22; }
+    .badge.lang-css { --lang-fg: #663399; --lang-bg: #66339922; }
+    .badge.lang-javascript { --lang-fg: #7a6000; --lang-bg: #7a600022; }
+    .badge.lang-typescript { --lang-fg: #2457a6; --lang-bg: #2457a622; }
+    .badge.lang-shell { --lang-fg: #3f6b1a; --lang-bg: #3f6b1a22; }
+    .badge.lang-go { --lang-fg: #00629b; --lang-bg: #00629b22; }
+    .badge.lang-java { --lang-fg: #8b2e00; --lang-bg: #8b2e0022; }
+    .badge.lang-csharp { --lang-fg: #1a7a2e; --lang-bg: #1a7a2e22; }
+    .badge.lang-cmake { --lang-fg: #8a1c1c; --lang-bg: #8a1c1c22; }
+    .badge.lang-makefile { --lang-fg: #6b4f00; --lang-bg: #6b4f0022; }
+    .badge.lang-powershell { --lang-fg: #0b4f8a; --lang-bg: #0b4f8a22; }
+    .badge.lang-batchfile { --lang-fg: #3a6b00; --lang-bg: #3a6b0022; }
+    [data-theme="dark"] .badge.lang-rust { --lang-fg: #dea584; --lang-bg: #dea58422; }
+    [data-theme="dark"] .badge.lang-python { --lang-fg: #79b8ff; --lang-bg: #79b8ff22; }
+    [data-theme="dark"] .badge.lang-c { --lang-fg: #c3cddd; --lang-bg: #c3cddd22; }
+    [data-theme="dark"] .badge.lang-cpp { --lang-fg: #f38bb3; --lang-bg: #f38bb322; }
+    [data-theme="dark"] .badge.lang-lua { --lang-fg: #8b9dff; --lang-bg: #8b9dff22; }
+    [data-theme="dark"] .badge.lang-html { --lang-fg: #ff8a65; --lang-bg: #ff8a6522; }
+    [data-theme="dark"] .badge.lang-css { --lang-fg: #c39bff; --lang-bg: #c39bff22; }
+    [data-theme="dark"] .badge.lang-javascript { --lang-fg: #f1e05a; --lang-bg: #f1e05a22; }
+    [data-theme="dark"] .badge.lang-typescript { --lang-fg: #6ea8ff; --lang-bg: #6ea8ff22; }
+    [data-theme="dark"] .badge.lang-shell { --lang-fg: #89e051; --lang-bg: #89e05122; }
+    [data-theme="dark"] .badge.lang-go { --lang-fg: #6ecbff; --lang-bg: #6ecbff22; }
+    [data-theme="dark"] .badge.lang-java { --lang-fg: #ff9c6e; --lang-bg: #ff9c6e22; }
+    [data-theme="dark"] .badge.lang-csharp { --lang-fg: #7ee2a8; --lang-bg: #7ee2a822; }
+    [data-theme="dark"] .badge.lang-cmake { --lang-fg: #ff8a8a; --lang-bg: #ff8a8a22; }
+    [data-theme="dark"] .badge.lang-makefile { --lang-fg: #e0c060; --lang-bg: #e0c06022; }
+    [data-theme="dark"] .badge.lang-powershell { --lang-fg: #7cc4ff; --lang-bg: #7cc4ff22; }
+    [data-theme="dark"] .badge.lang-batchfile { --lang-fg: #b6e36b; --lang-bg: #b6e36b22; }
     .repo-desc { margin: 0; color: var(--muted); font-size: 14px; flex: 1; }
     .repo-topics { display: flex; flex-wrap: wrap; gap: 6px; }
     .topic {
@@ -733,15 +769,14 @@
       'CAN_CRC_Checker': 'DBC 感知的 CAN 总线 CRC / Rolling Counter 校验工具，支持 E2E Profile 5 与 Profile 1/1A，解析 BLF / ASC / MF4 / TRC 报文并生成 HTML 报告。'
     };
 
-    function languageColor(name) {
-      const colors = {
-        Rust: '#dea584',
-        Python: '#3572A5',
-        C: '#555555',
-        Lua: '#000080',
-        HTML: '#e34c26'
-      };
-      return colors[name] || '#8b949e';
+    // 语言徽标的颜色由 CSS 按主题给出，这里只生成类名；未知语言回落到通用徽标色
+    function languageClass(name) {
+      const slug = name.toLowerCase()
+        .replace(/\+/g, 'p')
+        .replace(/#/g, 'sharp')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '');
+      return 'lang-' + slug;
     }
 
     function formatDate(value) {
@@ -783,10 +818,8 @@
         head.appendChild(nameLink);
         if (repo.language) {
           const lang = document.createElement('span');
-          lang.className = 'badge';
+          lang.className = 'badge lang ' + languageClass(repo.language);
           lang.textContent = repo.language;
-          lang.style.background = languageColor(repo.language) + '22';
-          lang.style.color = languageColor(repo.language);
           head.appendChild(lang);
         }
         card.appendChild(head);
