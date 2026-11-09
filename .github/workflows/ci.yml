@@ -50,3 +50,19 @@ jobs:
         with:
           args: --config lychee.toml --no-progress index.html README.md
           fail: true
+
+  # 汇总门禁:分支 ruleset 只要求 "CI required" 这一个稳定的检查名,
+  # 以后增删作业或给作业改名,都不用回头改 ruleset。
+  gate:
+    name: CI required
+    runs-on: ubuntu-latest
+    needs: [page, links]
+    if: always()
+    steps:
+      - name: 所有上游作业都成功才算通过
+        run: |
+          echo "page=${{ needs.page.result }} links=${{ needs.links.result }}"
+          if [ "${{ needs.page.result }}" != "success" ] || [ "${{ needs.links.result }}" != "success" ]; then
+            echo "::error::上游作业失败或被取消,门禁不通过"
+            exit 1
+          fi
